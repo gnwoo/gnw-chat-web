@@ -1,17 +1,21 @@
-export const checkAuthStatus = (username, JWT) => {
+export const checkAuthStatus = async () => {
   fetch("http://localhost:8080/authStatus", {
-    method: 'POST',
+    method: 'GET',
     headers: {
       'content-type': 'application/json',
     },
-    body: JSON.stringify({
-      username: username,
-      JWT: JWT
-    }
-  )})
+    credentials: "include",
+  })
   .then(res =>  {
-    return res.ok;
+    if (res.ok) {
+      console.log("auth check ok");
+      return true;
+    } else {
+      throw new Error(); 
+    }
+  })
+  .catch(error => {
+    console.log("auth check no");
+    return false;
   });
-
-  return false;
 };

@@ -49,9 +49,9 @@ export default function SignUp() {
     })
     .then(res =>  {
       if (res.ok) {
-        console.log("ok")
+        console.log("sign up ok")
       } else {
-        console.log("not ok")
+        console.log("sign up no")
       }
     });
   };

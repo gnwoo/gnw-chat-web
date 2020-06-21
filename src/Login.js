@@ -46,7 +46,7 @@ export default function Login({ authHandler }) {
     )})
     .then(res =>  {
       if (res.ok) {
-        console.log("ok");
+        console.log("login ok");
         return res.json();
       } else {
         throw new Error();
@@ -56,7 +56,7 @@ export default function Login({ authHandler }) {
       authHandler(true);
       setLogin(true);
     })
-    .catch(error => console.log("no"));
+    .catch(error => console.log("login no"));
   };
 
   return (

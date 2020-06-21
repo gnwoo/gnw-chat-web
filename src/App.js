@@ -12,8 +12,8 @@ function App() {
   const [authed, setAuthed] = React.useState(false);
   const [cookies] = useCookies();
   
-  if (!authed && cookies.JWT) {
-    const authorized = checkAuthStatus(cookies.username, cookies.JWT);
+  if (!authed && cookies.uuid && cookies.JWT) {
+    const authorized = checkAuthStatus();
     if (authorized) {
       console.log("authorized")
       setAuthed(true);
