@@ -41,10 +41,6 @@ const Side = ({sidebarSelectionHandle}) => (
 export default function ChatPage() {
   const [sidebarSelection, setSidebarSelection] = useState(0);
 
-  let location = useLocation();
-
-  console.log(location.state.userInfo)
-
   return (
     <div>
       <Grid

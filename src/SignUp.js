@@ -49,15 +49,11 @@ export default function SignUp() {
     })
     .then(res =>  {
       if (res.ok) {
-        return res.json();
+        console.log("ok")
+      } else {
+        console.log("not ok")
       }
-      throw new Error();
-    })
-    .then(user => {
-      setUser(user);
-      setLogin(true);
-    })
-    .catch(error => console.error('Error:', error));
+    });
   };
 
   return (
@@ -125,17 +121,12 @@ export default function SignUp() {
         Submit
       </Button>
       <Link to="/">Login</Link>
-      {login &&
-        <Redirect to={{
-          pathname: '/chat',
-          state: { userInfo: user },
-        }} /> }
     </div>
         </div>
       </div>
       <div className="footer">
         <a target="_blank">
-          © 2020 COMMUNISTE EN CALIFORNIA. ALL RIGHTS RESERVED.
+          © 2020 GNW GROUP. ALL RIGHTS SERA LE GENRE HUMAIN.
         </a>
       </div>
     </div>

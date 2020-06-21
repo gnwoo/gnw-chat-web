@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login() {
+export default function Login({ authHandler }) {
   const classes = useStyles();
   
   const [username, setUsername] = useState("");
@@ -38,22 +38,25 @@ export default function Login() {
       headers: {
         'content-type': 'application/json',
       },
+      credentials: "include",
       body: JSON.stringify({
         username: username,
         password: password,
-      }),
-    })
+      }
+    )})
     .then(res =>  {
       if (res.ok) {
+        console.log("ok");
         return res.json();
+      } else {
+        throw new Error();
       }
-      throw new Error();
     })
-    .then(user => {
-      setUser(user);
+    .then(json => {
+      authHandler(true);
       setLogin(true);
     })
-    .catch(error => console.error('Error:', error));
+    .catch(error => console.log("no"));
   };
 
   return (
@@ -101,17 +104,14 @@ export default function Login() {
         Submit
       </Button>
       <Link to="/signUp">Sign Up</Link>
-      {login &&
-        <Redirect to={{
-          pathname: '/chat',
-          state: { userInfo: user },
-        }} /> }
+      { login &&
+        <Redirect to="/chat" /> }
     </div>
         </div>
       </div>
       <div className="footer">
         <a target="_blank">
-          © 2020 COMMUNISTE EN CALIFORNIA. ALL RIGHTS RESERVED.
+          © 2020 GNW GROUP. ALL RIGHTS SERA LE GENRE HUMAIN.
         </a>
       </div>
     </div>

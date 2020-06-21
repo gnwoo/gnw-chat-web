@@ -1,32 +1,48 @@
 import React, { useState } from 'react';
-import {
-  grommet,
-  Grommet,
-} from "grommet";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
-import Login from './Login.js';
-import SignUp from './SignUp.js';
-import ChatPage from './ChatPage.js';
+import { grommet, Grommet, } from "grommet";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { useCookies } from 'react-cookie';
 
-function App() {
+import Login from './Login';
+import SignUp from './SignUp';
+import ChatPage from './ChatPage';
+import { checkAuthStatus } from './authHelper';
+
+function App() {  
+  const [authed, setAuthed] = React.useState(false);
+  const [cookies] = useCookies();
+  
+  if (!authed && cookies.JWT) {
+    const authorized = checkAuthStatus(cookies.username, cookies.JWT);
+    if (authorized) {
+      console.log("authorized")
+      setAuthed(true);
+    }
+  }
+
   return (
     <Grommet theme={grommet} full>
       <Router>
           <Switch>
+
             <Route path="/signUp">
-              <SignUp />
+              { authed ?
+                <Redirect to='/chat' /> :
+                <SignUp /> }
             </Route>
+
             <Route path="/chat">
-              <ChatPage />
+              { authed ?
+                <ChatPage /> :
+                <Redirect to='/' /> }
             </Route>
+
             <Route path="/">
-              <Login />
+              { authed ?
+                <Redirect to='/chat' /> :
+                <Login authHandler={setAuthed} /> }
             </Route>
+
           </Switch>
       </Router>
     </Grommet>
