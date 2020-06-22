@@ -6,6 +6,7 @@ import { useCookies } from 'react-cookie';
 import Login from './Login';
 import SignUp from './SignUp';
 import ChatPage from './ChatPage';
+import ChangePasswordPage from './ChangePasswordPage';
 import { checkAuthStatus } from './authHelper';
 
 function App() {  
@@ -35,6 +36,10 @@ function App() {
               { authed ?
                 <ChatPage /> :
                 <Redirect to='/' /> }
+            </Route>
+
+            <Route path="/change-password">
+              <ChangePasswordPage/>
             </Route>
 
             <Route path="/">
