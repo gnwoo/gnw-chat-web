@@ -14,7 +14,7 @@ function App() {
   
   if (!authed && cookies.uuid && cookies.JWT) {
     const authorized = checkAuthStatus();
-    if (authorized) {
+    if (authorized === true) {
       console.log("authorized")
       setAuthed(true);
     }
