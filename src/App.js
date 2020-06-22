@@ -32,7 +32,7 @@ export default class App extends React.Component {
 
   render() {
     let rightComp;
-    if (this.state.sidebarSelection === 1) {
+    if (this.state.sidebarSelection === 0) {
       rightComp = <ChatView />
     } else {
       rightComp = <ContactView />

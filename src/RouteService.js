@@ -3,9 +3,10 @@ import { BrowserRouter as Router, Redirect, Route, Switch, } from "react-router-
 import { useCookies } from 'react-cookie';
 import { grommet, Grommet } from "grommet";
 
+import App from './App';
+import ChangePasswordPage from './ChangePasswordPage';
 import Login from './Login';
 import SignUp from './SignUp';
-import App from './App';
 
 import { checkAuthStatus } from './authHelper';
 
@@ -21,6 +22,10 @@ export default function RouteService() {
     <Grommet theme={grommet} full>
       <Router>
           <Switch>
+
+            <Route path="/change-password">
+              <ChangePasswordPage />
+            </Route>
 
             <Route path='/chat'>
                 { authed ?
