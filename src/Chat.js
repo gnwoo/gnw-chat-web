@@ -22,12 +22,12 @@ function Contacts({ chatInfo }) {
           { name: 'input', start: [0, 2], end: [0, 2] },
         ]}
       >
-        <Box gridArea="header" justify="center" pad={{ left: "25px" }} background="light-1">
+        <Box gridArea="header" justify="center" border="bottom" pad={{ left: "25px" }} background="light-1">
           <Text weight="bold" size="20px">
             {chatInfo && chatInfo.displayName}
           </Text>
         </Box>
-        <Box gridArea="display" border="top" background="light-1">
+        <Box gridArea="display" background="light-1">
         </Box>
         <Box gridArea="input" border="top" background="light-1">
           <TextArea
