@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { ThemeProvider, makeStyles, createMuiTheme, withStyles } from "@material-ui/core/styles";
+import React from 'react';
+import { ThemeProvider, createMuiTheme, withStyles } from "@material-ui/core/styles";
 import Button from '@material-ui/core/Button';
-import { Link, Redirect } from "react-router-dom";
 import FormControl from '@material-ui/core/FormControl';
 import { blue } from '@material-ui/core/colors';
 import Visibility from '@material-ui/icons/Visibility';
@@ -11,7 +10,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import clsx from 'clsx';
 import './App.css';
 
 const theme = createMuiTheme({
@@ -151,10 +149,9 @@ export default function Login({ authHandler }) {
                 <FormControl style={{marginBottom: 90}}  variant="filled">
                   <InputLabel style={{fontSize: 16, fontWeight: "bold"}} htmlFor="filled-adornment-password">PASSCODE</InputLabel>
                   <FilledInput style={{width: 280, height: 80, fontSize: 20, fontWeight: "bold", backgroundColor: "transparent"}}
-                    id="filled-adornment-password"
                     type={values.showPasscode ? 'text' : 'password'}
                     required
-                    id="standard-required"
+                    id="passcode"
                     label="Passcode"
                     value={values.passcode}
                     onChange={handleChange('passcode')}
@@ -191,10 +188,9 @@ export default function Login({ authHandler }) {
                   <FormControl style={{marginBottom: 50}}  variant="filled">
                   <InputLabel style={{fontSize: 16, fontWeight: "bold"}} htmlFor="filled-adornment-password">NEW PASSWORD</InputLabel>
                   <FilledInput style={{width: 280, height: 80, fontSize: 20, fontWeight: "bold", backgroundColor: "transparent"}}
-                    id="filled-adornment-password"
                     type={values.showPassword ? 'text' : 'password'}
                     required
-                    id="standard-required"
+                    id="passcode"
                     label="Passcode"
                     value={values.new_password}
                     onChange={handleChange('new_password')}
@@ -229,9 +225,7 @@ export default function Login({ authHandler }) {
       </div>
       
       <div className="footer" style={{position: "absolute", bottom: 10}}>
-        <a target="_blank">
-          © 2020 GNWOO GROUP. ALL RIGHTS SERA LE GENRE HUMAIN.
-        </a>
+        © 2020 GNWOO GROUP. ALL RIGHTS SERA LE GENRE HUMAIN.
       </div>
     
     </div>

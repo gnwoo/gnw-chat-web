@@ -104,7 +104,7 @@ export default function Login({ authHandler }) {
                 <InputLabel style={{fontSize: 18, fontWeight: "bold"}}>USERNAME</InputLabel>
                 <FilledInput style={{width: 280, height: 80, fontSize: 20, fontWeight: "bold", backgroundColor: "transparent", marginBottom: 10}}
                   required
-                  id="standard-required"
+                  id="username"
                   label="Username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
@@ -114,10 +114,9 @@ export default function Login({ authHandler }) {
               <FormControl className={clsx(classes.margin, classes.textField)} variant="filled">
                 <InputLabel style={{fontSize: 18, fontWeight: "bold"}} htmlFor="filled-adornment-password">PASSWORD</InputLabel>
                 <FilledInput style={{width: 280, height: 80, fontSize: 20, fontWeight: "bold", backgroundColor: "transparent"}}
-                  id="filled-adornment-password"
                   type={values.showPassword ? 'text' : 'password'}
                   required
-                  id="standard-required"
+                  id="password"
                   label="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -167,9 +166,7 @@ export default function Login({ authHandler }) {
       </div>
       
       <div className="footer" style={{position: "absolute", bottom: 10}}>
-        <a target="_blank">
-          © 2020 GNWOO GROUP. ALL RIGHTS SERA LE GENRE HUMAIN.
-        </a>
+        © 2020 GNWOO GROUP. ALL RIGHTS SERA LE GENRE HUMAIN.
       </div>
     
     </div>
