@@ -19,7 +19,7 @@ const ongoingChats = [
   { username: "zhangjiayi", displayName: "Jiayi Zhang", cID: "cid_mantinglin_zhangjiayi", lastMessage: "L'Internationale sera le genre humain!", lastMessageTimestamp: "16:12" } ];
 
 export default function ChatView() {
-  const [cIdx, setCIdx] = useState(0);
+  const [cIdx, setCIdx] = useState(-1);
 
   return (
     <Grid
