@@ -1,21 +1,20 @@
-export const checkAuthStatus = async () => {
+export const checkAuthStatus = (setAuthed) => {
   fetch("http://localhost:8080/authStatus", {
     method: 'GET',
     headers: {
       'content-type': 'application/json',
     },
-    credentials: "include",
+    credentials: 'include',
   })
   .then(res =>  {
     if (res.ok) {
-      console.log("auth check ok");
-      return true;
+      console.log("auth check ok")
+      setAuthed(true);
     } else {
-      throw new Error(); 
+      throw new Error("auth check no"); 
     }
   })
   .catch(error => {
-    console.log("auth check no");
-    return false;
+    console.log(error)
   });
 };

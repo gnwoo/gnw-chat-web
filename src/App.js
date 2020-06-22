@@ -1,52 +1,62 @@
-import React, { useState } from 'react';
-import { grommet, Grommet, } from "grommet";
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
-import { useCookies } from 'react-cookie';
+import React from 'react';
+import { Box, Grid } from "grommet";
 
-import Login from './Login';
-import SignUp from './SignUp';
-import ChatPage from './ChatPage';
-import { checkAuthStatus } from './authHelper';
+import Sidebar from "./Sidebar"
+import ChatView from "./ChatView"
+import ContactView from "./ContactView"
 
-function App() {  
-  const [authed, setAuthed] = React.useState(false);
-  const [cookies] = useCookies();
-  
-  if (!authed && cookies.uuid && cookies.JWT) {
-    const authorized = checkAuthStatus();
-    if (authorized === true) {
-      console.log("authorized")
-      setAuthed(true);
-    }
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      sidebarSelection: 0,
+      contacts: [
+        { username: "luoxiaolei", displayName: "Xiaolei Luo", cID: "cid_mantinglin_luoxiaolei" },
+        { username: "zhangjiayi", displayName: "Jiayi Zhang", cID: "cid_mantinglin_zhangjiayi" },
+        { username: "zhangjiayi", displayName: "Jiayi Zhang", cID: "cid_mantinglin_zhangjiayi" },
+        { username: "zhangjiayi", displayName: "Jiayi Zhang", cID: "cid_mantinglin_zhangjiayi" },
+        { username: "zhangjiayi", displayName: "Jiayi Zhang", cID: "cid_mantinglin_zhangjiayi" },
+        { username: "zhangjiayi", displayName: "Jiayi Zhang", cID: "cid_mantinglin_zhangjiayi" },
+        { username: "zhangjiayi", displayName: "Jiayi Zhang", cID: "cid_mantinglin_zhangjiayi" },
+        { username: "zhangjiayi", displayName: "Jiayi Zhang", cID: "cid_mantinglin_zhangjiayi" },
+        { username: "zhangjiayi", displayName: "Jiayi Zhang", cID: "cid_mantinglin_zhangjiayi" },
+        { username: "zhangjiayi", displayName: "Jiayi Zhang", cID: "cid_mantinglin_zhangjiayi" },
+        { username: "zhangjiayi", displayName: "Jiayi Zhang", cID: "cid_mantinglin_zhangjiayi" },
+        { username: "zhangjiayi", displayName: "Jiayi Zhang", cID: "cid_mantinglin_zhangjiayi" } ]
+    };
   }
 
-  return (
-    <Grommet theme={grommet} full>
-      <Router>
-          <Switch>
+  componentDidMount() {
 
-            <Route path="/signUp">
-              { authed ?
-                <Redirect to='/chat' /> :
-                <SignUp /> }
-            </Route>
+  }
 
-            <Route path="/chat">
-              { authed ?
-                <ChatPage /> :
-                <Redirect to='/' /> }
-            </Route>
+  render() {
+    let rightComp;
+    if (this.state.sidebarSelection === 1) {
+      rightComp = <ChatView />
+    } else {
+      rightComp = <ContactView />
+    }
 
-            <Route path="/">
-              { authed ?
-                <Redirect to='/chat' /> :
-                <Login authHandler={setAuthed} /> }
-            </Route>
-
-          </Switch>
-      </Router>
-    </Grommet>
-  );
+    return (
+      <div>
+        <Grid
+          fill
+          rows={['100vh']}
+          columns={['60px', 'auto']}
+          areas={[
+            { name: 'sidebar', start: [0, 0], end: [0, 0] },
+            { name: 'main-view', start: [1, 0], end: [1, 0] },
+          ]}
+        >
+          <Box gridArea="sidebar">
+            <Sidebar sidebarSelectionHandle={(index) => this.setState({ sidebarSelection: index }) }/>
+          </Box>
+          <Box gridArea="main-view">
+            {rightComp}
+          </Box>
+        </Grid>
+      </div>
+    );
+  }
 }
-
-export default App;

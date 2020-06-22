@@ -47,11 +47,8 @@ export default function Login({ authHandler }) {
   const [password, setPassword] = useState("");
 
   const [login, setLogin] = useState(false);
-  const [user, setUser] = useState(null);
   
   const loginFn = () => {
-    console.log(username)
-    console.log(password)
     fetch("http://localhost:8080/login", {
       method: 'POST',
       headers: {
@@ -152,18 +149,20 @@ export default function Login({ authHandler }) {
           </ColorButton>
 
           {/* Go to Sign Up Page */}
-          <Link to="/signUp" 
+          <Link to="/sign-up" 
                 style={{fontSize: 18, fontWeight: "bold", fontFamily: 'Helvetica', color: '#757575',
                         marginTop: 50, textDecoration: 'none'}}>
-           CREATE AN ACCOUNT
+            CREATE AN ACCOUNT
           </Link>
-          { login && <Redirect to="/chat" /> }
           {/* Go to Change Password Page */}
           <Link to="/ChangePassword" 
                 style={{fontSize: 18, fontWeight: "bold", fontFamily: 'Helvetica', color: '#757575',
                         marginTop: 10, textDecoration: 'none'}}>
             CANT'T LOGIN?
           </Link>
+
+          {/* redirect after login */}
+          { login && <Redirect to="/chat" /> }
         </div>
       </div>
       
