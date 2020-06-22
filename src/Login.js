@@ -155,7 +155,7 @@ export default function Login({ authHandler }) {
             CREATE AN ACCOUNT
           </Link>
           {/* Go to Change Password Page */}
-          <Link to="/ChangePassword" 
+          <Link to="/change-password" 
                 style={{fontSize: 18, fontWeight: "bold", fontFamily: 'Helvetica', color: '#757575',
                         marginTop: 10, textDecoration: 'none'}}>
             CANT'T LOGIN?
