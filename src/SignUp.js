@@ -10,7 +10,7 @@ import FilledInput from '@material-ui/core/FilledInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import DoneIcon from '@material-ui/icons/Done';
 import clsx from 'clsx';
 import './App.css';
 
@@ -81,11 +81,11 @@ export default function SignUp() {
     <div className="App">
       <div className="header">
         <img src={'./images/logo.png'} alt="Logo" className="logoImg"/>
-        <h1 className="headerText">gnwoo</h1>
+        <h1 className="headerText">sign up</h1>
       </div>
       <div className="mainWrapper">
         <div>
-          <img src={'./images/login_illustration.png'} alt="Logo Illustration" className="logoIllustration" />
+          <img src={'./images/sign_up_illustration.png'} alt="Logo Illustration" className="logoIllustration" />
         </div>
         
         <div className="signUpContainer" style={{width: 420, height: 660, borderRadius: "40px", marginBottom: 20,
@@ -106,7 +106,7 @@ export default function SignUp() {
                 />
               </FormControl>
               {/* Enter Password */}
-              <FormControl className={clsx(classes.margin, classes.textField)} variant="filled">
+              <FormControl className={clsx(classes.margin, classes.textField)} variant="filled" style={{marginBottom: 10}}>
                 <InputLabel style={{fontSize: 18, fontWeight: "bold"}} htmlFor="filled-adornment-password">PASSWORD</InputLabel>
                 <FilledInput style={{width: 280, height: 80, fontSize: 20, fontWeight: "bold", backgroundColor: "transparent"}}
                   type={values.showPassword ? 'text' : 'password'}
@@ -159,9 +159,9 @@ export default function SignUp() {
             variant="contained"
             onClick={SignUpFn}
             style={{width: 90, height: 90, borderRadius: 20, background: "linear-gradient(145deg, #23a1ff, #1e87db)", 
-                    boxShadow: "2px 2px 4px 2px #bbdefb", marginTop: 40}}
+                    boxShadow: "2px 2px 4px 2px #bbdefb", marginTop: 36}}
           >
-            <ArrowForwardIcon style={{width: 36, height: 36}}></ArrowForwardIcon>
+            <DoneIcon style={{width: 36, height: 36}}></DoneIcon>
           </ColorButton>
 
           {/* Go to Log In Page */}
