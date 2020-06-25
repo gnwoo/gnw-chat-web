@@ -16,7 +16,8 @@ const ongoingChats = [
   { username: "zhangjiayi", displayName: "Jiayi Zhang", cID: "cid_mantinglin_zhangjiayi", lastMessage: "L'Internationale sera le genre humain!", lastMessageTimestamp: "16:12" },
   { username: "zhangjiayi", displayName: "Jiayi Zhang", cID: "cid_mantinglin_zhangjiayi", lastMessage: "L'Internationale sera le genre humain!", lastMessageTimestamp: "16:12" },
   { username: "zhangjiayi", displayName: "Jiayi Zhang", cID: "cid_mantinglin_zhangjiayi", lastMessage: "L'Internationale sera le genre humain!", lastMessageTimestamp: "16:12" },
-  { username: "zhangjiayi", displayName: "Jiayi Zhang", cID: "cid_mantinglin_zhangjiayi", lastMessage: "L'Internationale sera le genre humain!", lastMessageTimestamp: "16:12" } ];
+  { username: "zhangjiayi", displayName: "Jiayi Zhang", cID: "cid_mantinglin_zhangjiayi", lastMessage: "L'Internationale sera le genre humain!", lastMessageTimestamp: "16:12" }
+];
 
 export default function ChatView() {
   const [cIdx, setCIdx] = useState(-1);
@@ -40,7 +41,7 @@ export default function ChatView() {
         <ConversationList cIdx={cIdx} setCIdx={setCIdx} />
       </Box>
 
-      <Box gridArea="chat" width={{ min: "600px" }}  border="left">
+      <Box gridArea="chat" width={{ min: "600px" }} border="left">
         <Chat chatInfo={cIdx === -1 ? null : ongoingChats[cIdx]} />
       </Box>
     </Grid>

@@ -8,7 +8,7 @@ import ChangePasswordPage from './ChangePasswordPage';
 import Login from './Login';
 import SignUp from './SignUp';
 
-import { checkAuthStatus } from './authHelper';
+import { checkAuthStatus } from './helper';
 
 export default function RouteService() {
   const [authed, setAuthed] = useState(false);

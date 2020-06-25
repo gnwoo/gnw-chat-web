@@ -15,13 +15,13 @@ export default function ChatListItem({ index, chatItem, cIdx, setCIdx }) {
             { name: 'last-msg', start: [1, 1], end: [1, 1] },
             { name: 'last-msg-ts', start: [2, 0], end: [2, 0] } ]}
           >
-          <Box gridArea="ava" justify="center">
+          <Box gridArea="ava" justify="center" align="center">
             <Avatar size="50px" round="2px" background="light-1">{ chatItem.displayName.charAt(0) }</Avatar>
           </Box>
-          <Box gridArea="username" justify="end">
+          <Box gridArea="username" justify="end" pad={{ left: "5px", bottom: "4px" }}>
             <Text weight="bold" size="15px">{ chatItem.displayName }</Text>
           </Box>
-          <Box gridArea="last-msg" justify="start" pad={{ top: "5px" }}>
+          <Box gridArea="last-msg" justify="start" pad={{ left: "5px", top: "5px" }}>
             <Text size="13px" color="grey" style={{ fontFamily: "Monaco" }}>
               { chatItem.lastMessage.length > 15 ? chatItem.lastMessage.slice(0, 15) + "..." : chatItem.lastMessage }
             </Text>

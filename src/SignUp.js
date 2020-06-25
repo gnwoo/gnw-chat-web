@@ -49,7 +49,7 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   
   const SignUpFn = () => {
-    fetch("http://localhost:8080/sign-up", {
+    fetch("http://localhost:8080/auth/sign-up", {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
