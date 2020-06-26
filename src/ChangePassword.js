@@ -173,7 +173,7 @@ export default class ChangePassword extends React.Component {
                 </p>
                 <ThemeProvider theme={theme}>
                   {/* enter passcode */}
-                  <FormControl style={{marginBottom: 90}}  variant="filled">
+                  <FormControl style={{marginBottom: 100}}  variant="filled">
                     <InputLabel style={{fontSize: 16, fontWeight: "bold"}} htmlFor="filled-adornment-password">PASSCODE</InputLabel>
                     <FilledInput style={{width: 280, height: 80, fontSize: 20, fontWeight: "bold", backgroundColor: "transparent"}}
                       type={this.state.showPasscode ? 'text' : 'password'}
@@ -196,7 +196,7 @@ export default class ChangePassword extends React.Component {
                       }
                     />
                   </FormControl>
-                  <div style={{fontSize: 18, fontFamily: "Helvetica", fontStyle: "Italic"}}>Your passcode has been sent to luo19980630@outlook.com</div>
+                  <div style={{fontSize: 18, fontFamily: "Helvetica", fontStyle: "Italic"}}>Your passwcode is valid for 10 minutes</div>
                 </ThemeProvider>
               </form>
             </div>
