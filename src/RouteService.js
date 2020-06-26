@@ -6,7 +6,7 @@ import { grommet, Grommet } from "grommet";
 import App from './App';
 import SignUp from './SignUp';
 import Login from './Login';
-import ChangePasswordPage from './ChangePasswordPage';
+import ChangePassword from './ChangePassword';
 
 import { checkAuthStatus } from './helper';
 
@@ -24,7 +24,7 @@ export default function RouteService() {
           <Switch>
 
             <Route path="/change-password">
-              <ChangePasswordPage />
+              <ChangePassword />
             </Route>
 
             <Route path='/chat'>

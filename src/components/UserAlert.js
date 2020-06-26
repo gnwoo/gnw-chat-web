@@ -1,5 +1,5 @@
 import React from 'react';
-import Alert from '@material-ui/lab/Alert';
+import {Alert} from '@material-ui/lab';
 import Snackbar from '@material-ui/core/Snackbar';
 
 export default function SignUpSuccessAlert(props) {
