@@ -47,7 +47,7 @@ export default function Login({ authHandler }) {
   
   const sendPasscodeEmail = () => {
     console.log(values.username)
-    fetch("http://localhost:8080/verify-by-email-address", {
+    fetch("http://localhost:8080/auth/verify-by-email-address", {
       method: 'POST',
       headers: { 'content-type': 'application/json',},
       credentials: "include",
@@ -68,7 +68,7 @@ export default function Login({ authHandler }) {
   const updatePassword = () => {
     console.log(values.passcode)
     console.log(values.new_password)
-    fetch("http://localhost:8080/change-password", {
+    fetch("http://localhost:8080/auth/change-password", {
       method: 'PUT',
       headers: { 'content-type': 'application/json',},
       credentials: "include",
