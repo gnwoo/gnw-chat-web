@@ -4,9 +4,9 @@ import { useCookies } from 'react-cookie';
 import { grommet, Grommet } from "grommet";
 
 import App from './App';
-import ChangePasswordPage from './ChangePasswordPage';
-import Login from './Login';
 import SignUp from './SignUp';
+import Login from './Login';
+import ChangePasswordPage from './ChangePasswordPage';
 
 import { checkAuthStatus } from './helper';
 

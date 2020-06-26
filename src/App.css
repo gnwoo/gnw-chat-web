@@ -67,12 +67,23 @@
   justify-content: center;
 
 }
-.logoIllustration{
+.logoIllustration {
   margin-left: -230px;
   margin-right: -80px;
   width: 900px;
   height: 600px;
   margin-bottom: 20px;
+}
+.SuccessPageWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.SuccessIllustration {
+  width: 1080px;
+  height: 720px;
+  margin-bottom: 50px;
 }
 .signUpContainer{
   display: flex;
