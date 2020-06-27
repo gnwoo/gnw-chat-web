@@ -1,0 +1,89 @@
+.ProfileWrapper
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+.ProfileTitle
+{
+    font-size: 20px;
+    font-weight: "bold";
+    font-family: "Helvetica";
+    text-align: left;
+    width: 380px;
+    margin-bottom: -8px;
+    z-index: 998;
+}
+.InfoContainer
+{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 410px; 
+    height: auto;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    margin-right: 20px;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #ffffff, #e6e6e6);
+    box-shadow: 20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
+}
+.InfoTitle
+{
+    font-size: 16px;
+    font-weight: 900;
+    font-family: "Helvetica";
+    color: #757575;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+.InfoContent
+{
+    font-size: 18px;
+    font-weight: 900;
+    font-family: "Helvetica";
+    margin-left: 62px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.SessionContainer
+{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 410px; 
+    height: auto;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    margin-top: 20px;
+    margin-right: 20px;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #ffffff, #e6e6e6);
+    box-shadow: 20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
+}
+.AvatarContainer
+{   
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 998;
+    margin-right: 20px;
+}
+.AvatarImgContainer
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 140px; 
+    height: 140px;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #ffffff, #e6e6e6);
+    box-shadow: 20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff
+}
+.AvatarImg
+{
+    width: 80px;
+    height: 80px;
+}

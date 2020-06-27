@@ -1,5 +1,5 @@
 export const checkAuthStatus = (setAuthed) => {
-  fetch("http://localhost:8080/auth/authentication-status", {
+  fetch("http://localhost:8080/user/authentication-status", {
     method: 'GET',
     headers: {
       'content-type': 'application/json',

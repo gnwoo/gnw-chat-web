@@ -12,7 +12,6 @@ import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import DoneIcon from '@material-ui/icons/Done';
 import UserAlert from './components/UserAlert'
-import './App.css';
 
 const theme = createMuiTheme({
   palette: {

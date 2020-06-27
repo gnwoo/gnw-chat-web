@@ -7,6 +7,7 @@ import App from './App';
 import SignUp from './SignUp';
 import Login from './Login';
 import ChangePassword from './ChangePassword';
+import Account from './pages/Account'
 
 import { checkAuthStatus } from './helper';
 
@@ -22,6 +23,10 @@ export default function RouteService() {
     <Grommet theme={grommet} full>
       <Router>
           <Switch>
+
+            <Route path="/account">
+              <Account />
+            </Route>
 
             <Route path="/change-password">
               <ChangePassword />
