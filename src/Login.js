@@ -64,7 +64,7 @@ export default class Login extends React.Component {
   handleUserAlertClose = () => { this.setState({userAlertOpen: !this.state.userAlertOpen}) }
 
   submitloginForm = () => {
-    fetch("http://localhost:8080/auth/login", {
+    fetch("http://localhost:8080/user/login", {
       method: 'POST',
       headers: {
         'content-type': 'application/json',

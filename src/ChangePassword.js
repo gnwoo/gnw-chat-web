@@ -67,7 +67,7 @@ export default class ChangePassword extends React.Component {
   handleUserAlertClose = () => { this.setState({userAlertOpen: !this.state.userAlertOpen}) }
 
   sendPasscodeEmail = () => {
-    fetch("http://localhost:8080/auth/verify-by-email-address", {
+    fetch("http://localhost:8080/user/verify-by-email-address", {
       method: 'POST',
       headers: { 'content-type': 'application/json',},
       credentials: "include",
@@ -91,7 +91,7 @@ export default class ChangePassword extends React.Component {
 
   updatePassword = () => {
     console.log(this.state.newPassword)
-    fetch("http://localhost:8080/auth/change-password", {
+    fetch("http://localhost:8080/user/change-password", {
       method: 'PUT',
       headers: { 'content-type': 'application/json',},
       credentials: "include",

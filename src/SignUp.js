@@ -67,7 +67,7 @@ export default class SignUp extends React.Component {
   handleUserAlertClose = () => { this.setState({userAlertOpen: !this.state.userAlertOpen}) }
 
   submitSignUpForm = () => {
-    fetch("http://localhost:8080/auth/sign-up", {
+    fetch("http://localhost:8080/user/sign-up", {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
