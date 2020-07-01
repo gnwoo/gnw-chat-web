@@ -15,7 +15,7 @@ export default function RouteService() {
   const [authed, setAuthed] = useState(false);
   const [cookies] = useCookies();
   
-  if (!authed && cookies.uuid && cookies.JWT) {
+  if (!authed) {
     checkAuthStatus(setAuthed);
   }
 
@@ -25,7 +25,9 @@ export default function RouteService() {
           <Switch>
 
             <Route path="/account">
-              <Account />
+              { authed ?
+                <Account authHandler={setAuthed} /> :
+                <Login authHandler={setAuthed} /> }
             </Route>
 
             <Route path="/change-password">

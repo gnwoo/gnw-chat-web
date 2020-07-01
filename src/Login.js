@@ -73,8 +73,8 @@ export default class Login extends React.Component {
       body: JSON.stringify({
         username: this.state.username,
         password: this.state.password,
-      }
-    )})
+      })
+    })
     .then(res =>  {
       if (res.ok) {
         this.handleUserAlertChange("success", "Login Success")
@@ -91,7 +91,7 @@ export default class Login extends React.Component {
       }
     })
     .then(json => {
-      this.props.authHandler(true);
+      this.props.authHandler(true)
       this.setState({isLogin: true})
     })
     .catch(error => console.log("login no"));

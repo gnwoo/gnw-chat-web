@@ -24,6 +24,7 @@
     height: auto;
     padding-top: 10px;
     padding-bottom: 20px;
+    padding-right: 20px;
     margin-right: 20px;
     border-radius: 20px;
     background: linear-gradient(145deg, #ffffff, #e6e6e6);
@@ -31,6 +32,8 @@
 }
 .InfoTitle
 {
+    display: flex;
+    flex-direction: row;
     font-size: 16px;
     font-weight: 900;
     font-family: "Helvetica";
@@ -38,13 +41,22 @@
     margin-top: 20px;
     margin-left: 20px;
 }
+.InfoTitleText
+{
+    margin-top: 4px;
+}
+.InfoTitleTextChip
+{
+    margin-left: 2px;
+    margin-bottom: 4px;
+}
 .InfoContent
 {
     font-size: 18px;
     font-weight: 900;
     font-family: "Helvetica";
     margin-left: 62px;
-    margin-top: 10px;
+    margin-top: 4px;
     margin-bottom: 10px;
 }
 .SessionContainer
@@ -58,6 +70,7 @@
     padding-bottom: 20px;
     margin-top: 20px;
     margin-right: 20px;
+    padding-right: 20px;
     border-radius: 20px;
     background: linear-gradient(145deg, #ffffff, #e6e6e6);
     box-shadow: 20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
@@ -68,7 +81,7 @@
     flex-direction: column;
     align-items: center;
     z-index: 998;
-    margin-right: 20px;
+    margin-right: -150px;
 }
 .AvatarImgContainer
 {
@@ -84,6 +97,6 @@
 }
 .AvatarImg
 {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
 }

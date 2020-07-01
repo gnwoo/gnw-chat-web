@@ -2,11 +2,15 @@ import React from 'react';
 import { withStyles } from "@material-ui/core/styles";
 import { blue } from '@material-ui/core/colors';
 import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
+import Chip from '@material-ui/core/Chip';
 import UserAlert from '../components/UserAlert'
 import EditIcon from '@material-ui/icons/Edit';
 import ImageIcon from '@material-ui/icons/Image';
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import UserAlertDialog from '../components/UserAlertDialog'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { Redirect } from "react-router-dom";
 import './Account.css';
 
 const ColorButton = withStyles((theme) => ({
@@ -28,17 +32,112 @@ export default class Profile extends React.Component {
       displayName: "",
       username: "",
       email: "",
-      userAlertDialogOpen: false
+      session_info: [],
+      userAlertDialogOpen: false,
+      isLogin: true
     };
   }
 
-  onClickChangePassword = () => {this.setState({userAlertDialogOpen: true})}
+  componentDidMount() {
+    fetch("http://localhost:8080/user/session-info", {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+      },
+      credentials: "include",
+    })
+    .then(res => {
+      if (res.ok) {
+        return res.json()
+      } else if (res.status === 401) {
+        this.handleUserAlertChange("error", "Unauthorized")
+        this.handleUserAlertClose()
+        throw new Error();
+      }
+      else {
+        throw new Error();
+      }
+    })
+    .then(data => {
+      this.setState({session_info: data})
+    })
+    .catch(error => console.log("session info no " + error));
+  }
+
+  onClickChangePassword = () => {window.location.replace("http://localhost:3000/change-password")}
+  onClickLogout = (session_id_param, session_id_index) => {
+    fetch("http://localhost:8080/user/logout", {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'session-to-logout-id': session_id_param
+      },
+      credentials: "include",
+    })
+    .then(res =>  {
+      if (res.ok && session_id_param === this.state.session_info[0]) {
+        this.props.authHandler(false)
+        this.setState({isLogin: false})
+      } else if (res.ok) {
+        this.handleUserAlertChange("success", "This session has been logged out")
+        this.handleUserAlertClose()
+        let temp_session_info = JSON.parse(JSON.stringify(this.state.session_info));
+        temp_session_info.splice(session_id_index, 1)
+        this.setState({session_info: temp_session_info})
+      } else if (res.status === 401) {
+        this.handleUserAlertChange("error", "Unauthorized")
+        this.handleUserAlertClose()
+        throw new Error();
+      } else {
+        this.handleUserAlertChange("error", "Server Error")
+        this.handleUserAlertClose()
+        throw new Error();
+      }
+    })
+    .catch(error => console.log(error));
+  }
+  onClicklogoutEverywhere = () => {
+    fetch("http://localhost:8080/user/logout-everywhere", {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      credentials: "include",
+    })
+    .then(res =>  {
+      if (res.ok) {
+        this.handleUserAlertChange("success", "All your sessions have been logged out")
+        this.handleUserAlertClose()
+        this.props.authHandler(false)
+        this.setState({isLogin: false})
+      } else if (res.status === 401) {
+        this.handleUserAlertChange("error", "Unauthorized")
+        this.handleUserAlertClose()
+        throw new Error();
+      } else {
+        this.handleUserAlertChange("error", "Server Error")
+        this.handleUserAlertClose()
+        throw new Error();
+      }
+    })
+    .catch(error => console.log(error));
+  }
+  handleUserAlertChange = (userAlertSeverityParam, userAlertMessageParam) => {
+    this.setState({
+      userAlertSeverity: userAlertSeverityParam,
+      userAlertMessage: userAlertMessageParam
+    })
+  }
+  handleUserAlertClose = () => { this.setState({userAlertOpen: !this.state.userAlertOpen}) }
   handleUserAlertDialogClose = () => {this.setState({userAlertDialogOpen: false})}
   handleUserAlertDialogOK = () => {window.location.replace("http://localhost:3000/")}
 
   render() {
     return (
       <div className="App">
+        {/* redirect after logout */}
+        { !this.state.isLogin && <Redirect to="/login" /> }
+
         <UserAlert severity={this.state.userAlertSeverity} message={this.state.userAlertMessage} 
                    open={this.state.userAlertOpen} handleClose={this.handleUserAlertClose}>
         </UserAlert>
@@ -62,7 +161,7 @@ export default class Profile extends React.Component {
                             style={{marginRight: 10, minWidth: 0, width: 30, height: 30, borderRadius: 10, background: "linear-gradient(145deg, #23a1ff, #1e87db)"}}>
                   <EditIcon style={{width: 16, height: 16}}></EditIcon>
                 </ColorButton>
-                DISPLAY NAME
+                <div className="InfoTitleText">DISPLAY NAME</div>
               </div>
               <div className="InfoContent">Xiaolei Luo</div>
               <div className="InfoTitle">
@@ -70,7 +169,7 @@ export default class Profile extends React.Component {
                             style={{marginRight: 10, minWidth: 0, width: 30, height: 30, borderRadius: 10, background: "linear-gradient(145deg, #23a1ff, #1e87db)"}}>
                   <EditIcon style={{width: 16, height: 16}}></EditIcon>
                 </ColorButton>
-                USERNAME
+                <div className="InfoTitleText">USERNAME</div>
               </div>
               <div className="InfoContent">luo19980630</div>
               <div className="InfoTitle">
@@ -78,39 +177,48 @@ export default class Profile extends React.Component {
                             style={{marginRight: 10, minWidth: 0, width: 30, height: 30, borderRadius: 10, background: "linear-gradient(145deg, #23a1ff, #1e87db)"}}>
                   <EditIcon style={{width: 16, height: 16}}></EditIcon>
                 </ColorButton>
-                EMAIL
+                <div className="InfoTitleText">EMAIL</div>
               </div>
               <div className="InfoContent">luo19980630@outlook.com</div>
               <div className="InfoTitle">
-                <ColorButton variant="contained"
-                            style={{marginRight: 10, minWidth: 0, width: 30, height: 30, borderRadius: 10, background: "linear-gradient(145deg, #23a1ff, #1e87db)"}}
-                            onClick={this.onClickChangePassword}>
-                  <EditIcon style={{width: 16, height: 16}}></EditIcon>
-                </ColorButton>
-                PASSWORD
+                <Tooltip title="Once your password is changed, all your sessions will be logged out." 
+                         placement="bottom-start">
+                  <ColorButton variant="contained"
+                              style={{marginRight: 10, minWidth: 0, width: 30, height: 30, borderRadius: 10, background: "linear-gradient(145deg, #23a1ff, #1e87db)"}}
+                              onClick={this.onClickChangePassword}>
+                    <EditIcon style={{width: 16, height: 16}}></EditIcon>
+                  </ColorButton>
+                </Tooltip>
+                <div className="InfoTitleText">PASSWORD</div>
               </div>
               <div className="InfoContent">************</div>
             </div>
 
             <div className="SessionContainer">
+              {this.state.session_info.map((session_id, key) =>
+                <div key={key}>
+                  <div className="InfoTitle">
+                    <ColorButton variant="contained"
+                                 style={{marginRight: 10, minWidth: 0, width: 30, height: 30, borderRadius: 10, background: "linear-gradient(145deg, #23a1ff, #1e87db)"}}
+                                 onClick={() => this.onClickLogout(session_id, key)}
+                    >
+                      <ExitToAppIcon style={{width: 16, height: 16}}></ExitToAppIcon>
+                    </ColorButton>
+                    {key === 0 ? <div className="InfoTitleText">SESSION {key + 1} <Chip className="InfoTitleTextChip" size="small" label="current"/> </div> : <div className="InfoTitleText">SESSION {key + 1}</div>}
+                  </div>
+                  <div className="InfoContent">{session_id}</div>
+                </div>
+              )}            
               <div className="InfoTitle">
+                <Tooltip title="logout everywhere" placement="bottom-start">
                   <ColorButton variant="contained"
                                style={{marginRight: 10, minWidth: 0, width: 30, height: 30, borderRadius: 10, background: "linear-gradient(145deg, #23a1ff, #1e87db)"}}
-                               >
-                    <ExitToAppIcon style={{width: 16, height: 16}}></ExitToAppIcon>
+                               onClick={this.onClicklogoutEverywhere}
+                  >
+                    <PowerSettingsNewIcon style={{width: 16, height: 16}}></PowerSettingsNewIcon>
                   </ColorButton>
-                  SESSION - 1
-                </div>
-                <div className="InfoContent">IP: 127.0.0.1</div>
-                <div className="InfoTitle">
-                  <ColorButton variant="contained"
-                               style={{marginRight: 10, minWidth: 0, width: 30, height: 30, borderRadius: 10, background: "linear-gradient(145deg, #23a1ff, #1e87db)"}}
-                               >
-                    <ExitToAppIcon style={{width: 16, height: 16}}></ExitToAppIcon>
-                  </ColorButton>
-                  SESSION - 2
-                </div>
-                <div className="InfoContent">IP: 127.0.0.1</div>
+                </Tooltip>
+              </div>
             </div>
               
           </div>
@@ -120,7 +228,7 @@ export default class Profile extends React.Component {
               <img className="AvatarImg" src={'./images/default_avatar.png'} alt="Logo"/>
             </div>
             <ColorButton variant="contained"
-                         style={{marginLeft: 4, marginTop: 10, minWidth: 0, width: 40, height: 30, borderRadius: 10, background: "linear-gradient(145deg, #23a1ff, #1e87db)"}}>
+                         style={{marginLeft: 4, marginTop: 10, minWidth: 0, width: 30, height: 30, borderRadius: 10, background: "linear-gradient(145deg, #23a1ff, #1e87db)"}}>
               <ImageIcon style={{width: 16, height: 16}}></ImageIcon>
             </ColorButton>
           </div>
