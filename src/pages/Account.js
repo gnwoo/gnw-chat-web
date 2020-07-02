@@ -10,6 +10,8 @@ import ImageIcon from '@material-ui/icons/Image';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import UserAlertDialog from '../components/UserAlertDialog'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import LockIcon from '@material-ui/icons/Lock';
+import NoEncryptionIcon from '@material-ui/icons/NoEncryption';
 import { Redirect } from "react-router-dom";
 import './Account.css';
 
@@ -32,6 +34,7 @@ export default class Profile extends React.Component {
       displayName: "",
       username: "",
       email: "",
+      is2FA: false,
       session_info: [],
       userAlertDialogOpen: false,
       isLogin: true
@@ -65,6 +68,38 @@ export default class Profile extends React.Component {
   }
 
   onClickChangePassword = () => {window.location.replace("http://localhost:3000/change-password")}
+
+  onClickChange2FA = () => {
+    fetch("http://localhost:8080/user/change-2FA-status", {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      credentials: "include",
+    })
+    .then(res =>  {
+      if (res.ok) {
+        return res.json()
+      } else {
+        this.handleUserAlertChange("error", "Server Error")
+        this.handleUserAlertClose()
+        throw new Error();
+      }
+    })
+    .then(data => {
+      console.log(data)
+      this.setState({is2FA: data.new2FAStatus})
+      if(data.new2FAStatus) {
+        this.handleUserAlertChange("success", "Your 2FA has been enabled")
+        this.handleUserAlertClose()
+      } else {
+        this.handleUserAlertChange("warning", "Your 2FA has been disabled")
+        this.handleUserAlertClose()
+      }
+    })
+    .catch(error => console.log(error));
+  }
+
   onClickLogout = (session_id_param, session_id_index) => {
     fetch("http://localhost:8080/user/logout", {
       method: 'POST',
@@ -96,6 +131,7 @@ export default class Profile extends React.Component {
     })
     .catch(error => console.log(error));
   }
+
   onClicklogoutEverywhere = () => {
     fetch("http://localhost:8080/user/logout-everywhere", {
       method: 'POST',
@@ -122,6 +158,7 @@ export default class Profile extends React.Component {
     })
     .catch(error => console.log(error));
   }
+
   handleUserAlertChange = (userAlertSeverityParam, userAlertMessageParam) => {
     this.setState({
       userAlertSeverity: userAlertSeverityParam,
@@ -177,7 +214,7 @@ export default class Profile extends React.Component {
                             style={{marginRight: 10, minWidth: 0, width: 30, height: 30, borderRadius: 10, background: "linear-gradient(145deg, #23a1ff, #1e87db)"}}>
                   <EditIcon style={{width: 16, height: 16}}></EditIcon>
                 </ColorButton>
-                <div className="InfoTitleText">EMAIL</div>
+                <div className="InfoTitleText">EMAIL <Chip className="InfoTitleTextChip" size="small" label="verified"/> </div>
               </div>
               <div className="InfoContent">luo19980630@outlook.com</div>
               <div className="InfoTitle">
@@ -192,6 +229,17 @@ export default class Profile extends React.Component {
                 <div className="InfoTitleText">PASSWORD</div>
               </div>
               <div className="InfoContent">************</div>
+              <div className="InfoTitle">
+                <ColorButton variant="contained"
+                              style={{marginRight: 10, minWidth: 0, width: 30, height: 30, borderRadius: 10, background: "linear-gradient(145deg, #23a1ff, #1e87db)"}}
+                              onClick={this.onClickChange2FA}>
+                  {this.state.is2FA === true ?  
+                   <LockIcon style={{width: 16, height: 16}}></LockIcon> :
+                   <NoEncryptionIcon style={{width: 16, height: 16}}></NoEncryptionIcon>
+                  }
+                </ColorButton>
+                <div className="InfoTitleText">TWO-FACTOR AUTHENTICATION</div>
+              </div>
             </div>
 
             <div className="SessionContainer">
