@@ -12,6 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import UserAlert from './components/UserAlert'
+import UserInputDialog from './components/UserInputDialog'
 import './App.css';
 
 const theme = createMuiTheme({
@@ -38,10 +39,12 @@ export default class Login extends React.Component {
     this.state = {
       username: "",
       password: "",
+      passcode2FA: "",
       showPassword: false,
       userAlertOpen: false,
       userAlertSeverity: "info",
       userAlertMessage: "nothing",
+      userInputDialogOpen: false,
       isLogin: false
     };
   }
@@ -49,6 +52,8 @@ export default class Login extends React.Component {
   handleUsernameChange = (usernameParam) => { this.setState({username: usernameParam})}
 
   handlePasswordChange = (passwordParam) => { this.setState({password: passwordParam}) }
+
+  handlePasscode2FAChange = (passcode2FAParam) => { this.setState({passcode2FA: passcode2FAParam}) }
 
   handleClickShowPassword = () => { this.setState({showPassword: !this.state.showPassword}) }
 
@@ -77,11 +82,52 @@ export default class Login extends React.Component {
     })
     .then(res =>  {
       if (res.ok) {
-        this.handleUserAlertChange("success", "Login Success")
-        this.handleUserAlertClose()
         return res.json();
+      } 
+      else if (res.status === 403) {
+        this.handleUserInputDialogClose()
+        throw new Error();
       } else if (res.status === 401) {
         this.handleUserAlertChange("error", "Username or password is incorrect")
+        this.handleUserAlertClose()
+        throw new Error();
+      } else {
+        this.handleUserAlertChange("error", "Server Error")
+        this.handleUserAlertClose()
+        throw new Error();
+      }
+    })
+    .then(data => {
+      this.props.authHandler(true)
+      this.setState({isLogin: true})
+    })
+    .catch(error => console.log("login no " + error));
+  }
+
+  handleUserInputDialogClose = () => {this.setState({userInputDialogOpen: !this.state.userInputDialogOpen})}
+  handleUserInputDialogOK = () => {
+    if(this.state.passcode2FA === "") {
+      this.handleUserAlertChange("error", "Empty 2FA passcode")
+      this.handleUserAlertClose()
+      return
+    }
+    fetch("http://localhost:8080/user/login", {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        username: this.state.username,
+        password: this.state.password,
+        passcode2FA: this.state.passcode2FA
+      })
+    })
+    .then(res =>  {
+      if (res.ok) {
+        return res.json();
+      } else if (res.status === 401) {
+        this.handleUserAlertChange("error", "Your 2FA passcode is incorrect")
         this.handleUserAlertClose()
         throw new Error();
       } else {
@@ -95,7 +141,7 @@ export default class Login extends React.Component {
       this.setState({isLogin: true})
     })
     .catch(error => console.log("login no"));
-  };
+  }
 
   render() {
     return (
@@ -103,6 +149,12 @@ export default class Login extends React.Component {
         <UserAlert severity={this.state.userAlertSeverity} message={this.state.userAlertMessage} 
                    open={this.state.userAlertOpen} handleClose={this.handleUserAlertClose}>
         </UserAlert>
+        <UserInputDialog open={this.state.userInputDialogOpen} onClose={this.handleUserInputDialogOpen}
+                         dialogTitleText="Two-Factor Authentication"
+                         dialogContentText="Enter the passcode on your Google Authenticator."
+                         passcode2FA={this.state.passcode2FA} handlePasscode2FAChange={this.handlePasscode2FAChange}
+                         onClickCancelButton={this.handleUserInputDialogClose} onClickOKButton={this.handleUserInputDialogOK}>
+        </UserInputDialog>
         <div className="header">
           <img src={'./images/logo.png'} alt="Logo" className="logoImg"/>
           <h1 className="headerText">gnwoo</h1>

@@ -88,11 +88,12 @@ export default class Profile extends React.Component {
     })
     .then(data => {
       console.log(data)
-      this.setState({is2FA: data.new2FAStatus})
-      if(data.new2FAStatus) {
-        this.handleUserAlertChange("success", "Your 2FA has been enabled")
+      if(data.new2FAStatus === "true") {
+        this.setState({is2FA: true})
+        this.handleUserAlertChange("success", "Your new 2FA Key: " + data.secretKey2FA)
         this.handleUserAlertClose()
       } else {
+        this.setState({is2FA: false})
         this.handleUserAlertChange("warning", "Your 2FA has been disabled")
         this.handleUserAlertClose()
       }
@@ -228,7 +229,6 @@ export default class Profile extends React.Component {
                 </Tooltip>
                 <div className="InfoTitleText">PASSWORD</div>
               </div>
-              <div className="InfoContent">************</div>
               <div className="InfoTitle">
                 <ColorButton variant="contained"
                               style={{marginRight: 10, minWidth: 0, width: 30, height: 30, borderRadius: 10, background: "linear-gradient(145deg, #23a1ff, #1e87db)"}}
