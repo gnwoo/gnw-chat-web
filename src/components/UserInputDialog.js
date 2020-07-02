@@ -36,10 +36,10 @@ export default function UserInputDialog(props) {
         aria-describedby="alert-dialog-description"
         PaperProps={{ style: { borderRadius: 12}}}
       >
-        <DialogTitle id="alert-dialog-title"><div style={{fontWeight: "bold"}}>{props.dialogTitleText}</div></DialogTitle>
+        <DialogTitle id="alert-dialog-title"><span style={{fontWeight: "bold"}}>{props.dialogTitleText}</span></DialogTitle>
         <DialogContent style={{fontSize: 20, fontWeight: "bold"}}>
           <DialogContentText id="alert-dialog-description">
-            <div style={{fontWeight: "bold"}}>{props.dialogContentText}</div>
+            <span style={{fontWeight: "bold"}}>{props.dialogContentText}</span>
           </DialogContentText>
           <ThemeProvider theme={theme}>
             <TextField style={{width: 150}} inputProps={{style: {fontWeight: "bold", fontSize: 22}}}

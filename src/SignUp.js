@@ -11,7 +11,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import DoneIcon from '@material-ui/icons/Done';
-import UserAlert from './components/UserAlert'
+import UserAlert from './components/UserAlert';
+import BlueCheckBox from './components/BlueCheckBox'
 
 const theme = createMuiTheme({
   palette: {
@@ -37,6 +38,7 @@ export default class SignUp extends React.Component {
       password: "",
       displayName: "",
       email: "",
+      is2FA: false,
       showPassword: false,
       userAlertOpen: false,
       userAlertSeverity: "info",
@@ -52,9 +54,12 @@ export default class SignUp extends React.Component {
 
   handleEmailChange = (emailParam) => { this.setState({email: emailParam}) }
 
+  handleIs2FAChange = () => { this.setState({is2FA: !this.state.is2FA}) }
+
   handleClickShowPassword = () => { this.setState({showPassword: !this.state.showPassword}) }
 
   handleMouseDownPassword = (event) => {event.preventDefault();};
+
 
   handleUserAlertChange = (userAlertSeverityParam, userAlertMessageParam) => {
     this.setState({
@@ -66,6 +71,7 @@ export default class SignUp extends React.Component {
   handleUserAlertClose = () => { this.setState({userAlertOpen: !this.state.userAlertOpen}) }
 
   submitSignUpForm = () => {
+    console.log(this.state.is2FA)
     fetch("http://localhost:8080/user/sign-up", {
       method: 'POST',
       headers: {
@@ -76,21 +82,34 @@ export default class SignUp extends React.Component {
         password: this.state.password,
         displayName: this.state.displayName,
         email: this.state.email,
+        is2FA: this.state.is2FA
       }),
     })
     .then(res =>  {
       if (res.ok) {
-        this.handleUserAlertChange("success", "Sign Up Success")
-        this.handleUserAlertClose()
+        return res.json()
       } else if (res.status === 409) {
         this.handleUserAlertChange("error", "Username has already been registered")
         this.handleUserAlertClose()
+        throw new Error()
       }
       else {
         this.handleUserAlertChange("error", "Server Error")
         this.handleUserAlertClose()
+        throw new Error()
       }
-    });
+    })
+    .then(data => {
+      if(data.secretKey2FA) {
+        this.handleUserAlertChange("success", "Sign Up Success. Your 2FA key: " + data.secretKey2FA)
+        this.handleUserAlertClose()
+      }
+      else {
+        this.handleUserAlertChange("success", "Sign Up Success")
+        this.handleUserAlertClose()
+      }
+    })
+    .catch(error => console.log(error));
   };
 
   render(){
@@ -108,7 +127,8 @@ export default class SignUp extends React.Component {
             <img src={'./images/sign_up_illustration.png'} alt="Logo Illustration" className="logoIllustration" />
           </div>
           
-          <div className="signUpContainer" style={{width: 420, height: 660, borderRadius: "40px", marginBottom: 20,
+          <div className="signUpContainer" style={{width: 420, height: "auto", paddingTop: 40, paddingBottom: 40,
+                                                   marginBottom: 20, borderRadius: "40px",
                                                    background: "linear-gradient(145deg, #ffffff, #e6e6e6)",
                                                    boxShadow: "20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff"}}>
             {/* <div style={{fontSize: 38, fontWeight: "bold", fontFamily: "Helvetica", marginBottom: 50}}>SIGN UP</div> */}
@@ -173,7 +193,10 @@ export default class SignUp extends React.Component {
                 </FormControl>
               </ThemeProvider>
             </form>
-  
+            
+            {/* Enable 2FA */}
+            <BlueCheckBox label="Two-Factor Authentication" checked={this.state.is2FA} onChange={this.handleIs2FAChange}></BlueCheckBox>
+
             {/* Submit Login Form */}
             <ColorButton
               variant="contained"
