@@ -10,8 +10,8 @@ import ImageIcon from '@material-ui/icons/Image';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import UserAlertDialog from '../components/UserAlertDialog'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import LockIcon from '@material-ui/icons/Lock';
 import NoEncryptionIcon from '@material-ui/icons/NoEncryption';
+import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import { Redirect } from "react-router-dom";
 import './Account.css';
 
@@ -234,7 +234,7 @@ export default class Profile extends React.Component {
                               style={{marginRight: 10, minWidth: 0, width: 30, height: 30, borderRadius: 10, background: "linear-gradient(145deg, #23a1ff, #1e87db)"}}
                               onClick={this.onClickChange2FA}>
                   {this.state.is2FA === true ?  
-                   <LockIcon style={{width: 16, height: 16}}></LockIcon> :
+                   <VerifiedUserIcon style={{width: 16, height: 16}}></VerifiedUserIcon> :
                    <NoEncryptionIcon style={{width: 16, height: 16}}></NoEncryptionIcon>
                   }
                 </ColorButton>
