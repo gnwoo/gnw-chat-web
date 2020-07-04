@@ -71,7 +71,6 @@ export default class SignUp extends React.Component {
   handleUserAlertClose = () => { this.setState({userAlertOpen: !this.state.userAlertOpen}) }
 
   submitSignUpForm = () => {
-    console.log(this.state.is2FA)
     fetch("http://localhost:8080/user/sign-up", {
       method: 'POST',
       headers: {
@@ -87,7 +86,7 @@ export default class SignUp extends React.Component {
     })
     .then(res =>  {
       if (res.ok) {
-        return res.json()
+        return res.json();
       } else if (res.status === 409) {
         this.handleUserAlertChange("error", "Username has already been registered")
         this.handleUserAlertClose()
@@ -100,6 +99,7 @@ export default class SignUp extends React.Component {
       }
     })
     .then(data => {
+      console.log(data)
       if(data.secretKey2FA) {
         this.handleUserAlertChange("success", "Sign Up Success. Your 2FA key: " + data.secretKey2FA)
         this.handleUserAlertClose()

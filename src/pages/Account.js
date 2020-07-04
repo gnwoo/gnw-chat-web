@@ -42,6 +42,35 @@ export default class Profile extends React.Component {
   }
 
   componentDidMount() {
+    fetch("http://localhost:8080/user/user-info", {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+      },
+      credentials: "include",
+    })
+    .then(res => {
+      if (res.ok) {
+        return res.json()
+      } else if (res.status === 401) {
+        this.handleUserAlertChange("error", "Unauthorized")
+        this.handleUserAlertClose()
+        throw new Error();
+      }
+      else {
+        throw new Error();
+      }
+    })
+    .then(data => {
+      this.setState({
+        displayName: data.displayName,
+        username: data.username,
+        email: data.email,
+        is2FA: data.is2FA
+      })
+    })
+    .catch(error => console.log("session info no " + error));
+
     fetch("http://localhost:8080/user/session-info", {
       method: 'GET',
       headers: {
@@ -87,8 +116,7 @@ export default class Profile extends React.Component {
       }
     })
     .then(data => {
-      console.log(data)
-      if(data.new2FAStatus === "true") {
+      if(data.secretKey2FA) {
         this.setState({is2FA: true})
         this.handleUserAlertChange("success", "Your new 2FA Key: " + data.secretKey2FA)
         this.handleUserAlertClose()
@@ -167,8 +195,6 @@ export default class Profile extends React.Component {
     })
   }
   handleUserAlertClose = () => { this.setState({userAlertOpen: !this.state.userAlertOpen}) }
-  handleUserAlertDialogClose = () => {this.setState({userAlertDialogOpen: false})}
-  handleUserAlertDialogOK = () => {window.location.replace("http://localhost:3000/")}
 
   render() {
     return (
@@ -179,12 +205,6 @@ export default class Profile extends React.Component {
         <UserAlert severity={this.state.userAlertSeverity} message={this.state.userAlertMessage} 
                    open={this.state.userAlertOpen} handleClose={this.handleUserAlertClose}>
         </UserAlert>
-
-        <UserAlertDialog open={this.state.userAlertDialogOpen} onClose={this.handleUserAlertDialogClose}
-                         dialogTitleText="Go To Change Password Page?"
-                         dialogContentText="Once your password is changed, all your sessions will be logged out."
-                         onClickCancelButton={this.handleUserAlertDialogClose} onClickOKButton={this.handleUserAlertDialogOK}>
-        </UserAlertDialog>
 
         <div className="header">
           <img src={'./images/logo.png'} alt="Logo" className="logoImg"/>
@@ -201,7 +221,7 @@ export default class Profile extends React.Component {
                 </ColorButton>
                 <div className="InfoTitleText">DISPLAY NAME</div>
               </div>
-              <div className="InfoContent">Xiaolei Luo</div>
+              <div className="InfoContent">{this.state.displayName}</div>
               <div className="InfoTitle">
                 <ColorButton variant="contained"
                             style={{marginRight: 10, minWidth: 0, width: 30, height: 30, borderRadius: 10, background: "linear-gradient(145deg, #23a1ff, #1e87db)"}}>
@@ -209,7 +229,7 @@ export default class Profile extends React.Component {
                 </ColorButton>
                 <div className="InfoTitleText">USERNAME</div>
               </div>
-              <div className="InfoContent">luo19980630</div>
+              <div className="InfoContent">{this.state.username}</div>
               <div className="InfoTitle">
                 <ColorButton variant="contained"
                             style={{marginRight: 10, minWidth: 0, width: 30, height: 30, borderRadius: 10, background: "linear-gradient(145deg, #23a1ff, #1e87db)"}}>
@@ -217,16 +237,13 @@ export default class Profile extends React.Component {
                 </ColorButton>
                 <div className="InfoTitleText">EMAIL <Chip className="InfoTitleTextChip" size="small" label="verified"/> </div>
               </div>
-              <div className="InfoContent">luo19980630@outlook.com</div>
+              <div className="InfoContent">{this.state.email}</div>
               <div className="InfoTitle">
-                <Tooltip title="Once your password is changed, all your sessions will be logged out." 
-                         placement="bottom-start">
                   <ColorButton variant="contained"
                               style={{marginRight: 10, minWidth: 0, width: 30, height: 30, borderRadius: 10, background: "linear-gradient(145deg, #23a1ff, #1e87db)"}}
                               onClick={this.onClickChangePassword}>
                     <EditIcon style={{width: 16, height: 16}}></EditIcon>
                   </ColorButton>
-                </Tooltip>
                 <div className="InfoTitleText">PASSWORD</div>
               </div>
               <div className="InfoTitle">
