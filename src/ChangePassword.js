@@ -1,6 +1,7 @@
 import React from 'react';
 import { ThemeProvider, createMuiTheme, withStyles } from "@material-ui/core/styles";
 import Button from '@material-ui/core/Button';
+import { Link } from "react-router-dom";
 import FormControl from '@material-ui/core/FormControl';
 import { blue } from '@material-ui/core/colors';
 import Visibility from '@material-ui/icons/Visibility';
@@ -9,7 +10,8 @@ import FilledInput from '@material-ui/core/FilledInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import UserAlert from './components/UserAlert'
 import './App.css';
 
@@ -42,6 +44,8 @@ export default class ChangePassword extends React.Component {
       userAlertOpen: false,
       userAlertSeverity: "info",
       userAlertMessage: "nothing",
+      currentStep: 0,
+      maxStep: 2
     };
   }
 
@@ -64,6 +68,15 @@ export default class ChangePassword extends React.Component {
     })
   }
 
+  handleClickChevronLeft = () => {
+    if(this.state.currentStep > 0)
+      this.setState({currentStep: this.state.currentStep - 1})
+  }
+  handleClickChevronRight = () => {
+    if(this.state.currentStep < 1)
+      this.setState({currentStep: this.state.currentStep + 1})
+  }
+
   handleUserAlertClose = () => { this.setState({userAlertOpen: !this.state.userAlertOpen}) }
 
   sendPasscodeEmail = () => {
@@ -77,6 +90,7 @@ export default class ChangePassword extends React.Component {
       if (res.ok) {
         this.handleUserAlertChange("success", "Your passcode has been sent")
         this.handleUserAlertClose()
+        this.setState({currentStep: 1})
         return;
       } else if(res.status === 404) {
         this.handleUserAlertChange("error", "Username does not exist")
@@ -130,123 +144,127 @@ export default class ChangePassword extends React.Component {
         </UserAlert>
         <div className="mainWrapper"> 
           <div className="ChangePasswordContainer">
-            <div style={{width: 400, height: 500, display: "flex", flexDirection: "column", justifyContent: "center",
-                         alignItems: "center", borderRadius: "40px", marginBottom: 20, background: "linear-gradient(145deg, #ffffff, #e6e6e6)",
-                         boxShadow: "20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff", marginRight: 20}}>
-              <form noValidate autoComplete="off">
-                <p style={{fontSize: 22, fontWeight: "bold", fontFamily: "Helvetica", paddingLeft: 30, paddingRight: 30, marginBottom: 40}}>
-                  Enter your username. We will send a passcode to your Email.
-                </p>
-                <ThemeProvider theme={theme}>
-                    {/* enter username */}
-                    <FormControl style={{marginBottom: 50}} variant="filled">
-                      <InputLabel style={{fontSize: 16, fontWeight: "bold"}}>USERNAME</InputLabel>
+
+            <Button style={{width: 80, height: 80, borderRadius: 20,  marginRight: 10}} onClick={this.handleClickChevronLeft}>
+              <ChevronLeftIcon style={{width: 42, height: 42}}></ChevronLeftIcon>
+            </Button>
+
+            {this.state.currentStep === 0 ?  
+              <div style={{width: 400, height: "auto", paddingTop: 70, paddingBottom: 70,
+                           display: "flex", flexDirection: "column", justifyContent: "center",
+                           alignItems: "center", borderRadius: "40px", marginBottom: 20, background: "linear-gradient(145deg, #ffffff, #e6e6e6)",
+                           boxShadow: "20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff"}}>
+                <form noValidate autoComplete="off">
+                  <p style={{fontSize: 22, fontWeight: "bold", fontFamily: "Helvetica", paddingLeft: 30, paddingRight: 30, marginBottom: 40}}>
+                    Enter your username. We will send a passcode to your verified Email.
+                  </p>
+                  <ThemeProvider theme={theme}>
+                      {/* enter username */}
+                      <FormControl style={{marginBottom: 50}} variant="filled">
+                        <InputLabel style={{fontSize: 16, fontWeight: "bold"}}>USERNAME</InputLabel>
+                        <FilledInput style={{width: 280, height: 80, fontSize: 20, fontWeight: "bold", backgroundColor: "transparent"}}
+                          required
+                          id="standard-required"
+                          label="Username"
+                          value={this.state.username}
+                          onChange={(e) => this.handleUsernameChange(e.target.value)}
+                        />
+                      </FormControl>
+                      {/* send passcode to email */}
+                      <ColorButton
+                        variant="contained"
+                        onClick={this.sendPasscodeEmail}
+                        style={{width: "auto", height: 50, paddingLeft: 20, paddingRight: 20, borderRadius: 10, background: "linear-gradient(145deg, #23a1ff, #1e87db)", 
+                                marginTop: 10}}
+                      >
+                        <div style={{fontSize: 15, fontWeight: "bold", fontFamily: "Helvetica",}}>SEND PASSCODE EMAIL</div>
+                      </ColorButton>
+                    </ThemeProvider>
+                </form>
+                {/* Go to Login Page */}
+                <Button style={{fontSize: 18, fontWeight: "bold", fontFamily: 'Helvetica', marginTop: 30}}>
+                  <Link to="/login" style={{color: '#757575', textDecoration: 'none'}}>
+                    GO TO LOGIN
+                  </Link>
+                </Button>
+              </div> : 
+              <div style={{width: 400, height: "auto", paddingTop: 70, paddingBottom: 70,
+                           display: "flex", flexDirection: "column", justifyContent: "center",
+                           alignItems: "center", borderRadius: "40px", marginBottom: 20, background: "linear-gradient(145deg, #ffffff, #e6e6e6)",
+                           boxShadow: "20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff"}}>
+                <form noValidate autoComplete="off">
+                  <p style={{fontSize: 22, fontWeight: "bold", fontFamily: "Helvetica", paddingLeft: 30, paddingRight: 30, marginBottom: 40}}>
+                    Enter the passcode you received and the new password.
+                  </p>
+                  <ThemeProvider theme={theme}>
+                    {/* enter passcode */}
+                    <FormControl style={{marginBottom: 20}} variant="filled">
+                      <InputLabel style={{fontSize: 16, fontWeight: "bold"}} htmlFor="filled-adornment-password">PASSCODE</InputLabel>
                       <FilledInput style={{width: 280, height: 80, fontSize: 20, fontWeight: "bold", backgroundColor: "transparent"}}
-                        required
-                        id="standard-required"
-                        label="Username"
-                        value={this.state.username}
-                        onChange={(e) => this.handleUsernameChange(e.target.value)}
+                            type={this.state.showPasscode ? 'text' : 'password'}
+                            required
+                            id="passcode"
+                            label="Passcode"
+                            value={this.state.passcode}
+                            onChange={(e) => this.handlePasscodeChange(e.target.value)}
+                            endAdornment={
+                              <InputAdornment position="end">
+                                <IconButton
+                                  aria-label="toggle password visibility"
+                                  onClick={this.handleClickShowPasscode}
+                                  onMouseDown={this.handleMouseDownPasscode}
+                                  edge="end"
+                                >
+                                {this.state.showPasscode ? <Visibility /> : <VisibilityOff />}
+                                </IconButton>
+                              </InputAdornment>
+                            }
                       />
                     </FormControl>
-                    {/* send passcode to email */}
-                    <ColorButton
-                      variant="contained"
-                      onClick={this.sendPasscodeEmail}
-                      style={{width: "auto", height: 50, paddingLeft: 20, paddingRight: 20, borderRadius: 10, background: "linear-gradient(145deg, #23a1ff, #1e87db)", 
-                              marginTop: 40}}
-                    >
-                      <div style={{fontSize: 15, fontWeight: "bold", fontFamily: "Helvetica",}}>SEND PASSCODE EMAIL</div>
-                    </ColorButton>
-                  </ThemeProvider>
-              </form>
-            </div>
-  
-            <ArrowForwardIcon style={{zIndex: 998, marginRight: 20, color: "#424242", width: 36, height: 36}}></ArrowForwardIcon>
-  
-            <div style={{width: 400, height: 500, display: "flex", flexDirection: "column", justifyContent: "center",
-                         alignItems: "center", borderRadius: "40px", marginBottom: 20, background: "linear-gradient(145deg, #ffffff, #e6e6e6)",
-                                                   boxShadow: "20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff", marginRight: 20}}>
-              <form noValidate autoComplete="off">
-                <p style={{fontSize: 22, fontWeight: "bold", fontFamily: "Helvetica", paddingLeft: 30, paddingRight: 30, marginBottom: 40}}>
-                  Enter the passcode you received.
-                </p>
-                <ThemeProvider theme={theme}>
-                  {/* enter passcode */}
-                  <FormControl style={{marginBottom: 100}}  variant="filled">
-                    <InputLabel style={{fontSize: 16, fontWeight: "bold"}} htmlFor="filled-adornment-password">PASSCODE</InputLabel>
-                    <FilledInput style={{width: 280, height: 80, fontSize: 20, fontWeight: "bold", backgroundColor: "transparent"}}
-                      type={this.state.showPasscode ? 'text' : 'password'}
-                      required
-                      id="passcode"
-                      label="Passcode"
-                      value={this.state.passcode}
-                      onChange={(e) => this.handlePasscodeChange(e.target.value)}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={this.handleClickShowPasscode}
-                            onMouseDown={this.handleMouseDownPasscode}
-                            edge="end"
-                          >
-                          {this.state.showPasscode ? <Visibility /> : <VisibilityOff />}
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                    />
-                  </FormControl>
-                  <div style={{fontSize: 18, fontFamily: "Helvetica", fontStyle: "Italic"}}>Your passwcode is valid for 10 minutes</div>
-                </ThemeProvider>
-              </form>
-            </div>
-  
-            <ArrowForwardIcon style={{zIndex: 998, marginRight: 20, color: "#424242", width: 36, height: 36}}></ArrowForwardIcon>
-  
-            <div style={{width: 400, height: 500, display: "flex", flexDirection: "column", justifyContent: "center",
-                         alignItems: "center", borderRadius: "40px", marginBottom: 20, background: "linear-gradient(145deg, #ffffff, #e6e6e6)",
-                                                   boxShadow: "20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff"}}>
-              <form noValidate autoComplete="off">
-                <p style={{fontSize: 22, fontWeight: "bold", fontFamily: "Helvetica", paddingLeft: 30, paddingRight: 30, marginBottom: 40}}>
-                  Enter the new password you want to reset.
-                </p>
-                <ThemeProvider theme={theme}>
                     {/* enter new password */}
                     <FormControl style={{marginBottom: 50}}  variant="filled">
-                    <InputLabel style={{fontSize: 16, fontWeight: "bold"}} htmlFor="filled-adornment-password">NEW PASSWORD</InputLabel>
-                    <FilledInput style={{width: 280, height: 80, fontSize: 20, fontWeight: "bold", backgroundColor: "transparent"}}
-                      type={this.state.showPassword ? 'text' : 'password'}
-                      required
-                      id="password"
-                      label="Password"
-                      value={this.state.newPassword}
-                      onChange={(e) => this.handlePasswordChange(e.target.value)}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={this.handleClickShowPassword}
-                            onMouseDown={this.handleMouseDownPassword}
-                            edge="end"
-                          >
-                          {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                    />
-                  </FormControl>
+                      <InputLabel style={{fontSize: 16, fontWeight: "bold"}} htmlFor="filled-adornment-password">NEW PASSWORD</InputLabel>
+                      <FilledInput style={{width: 280, height: 80, fontSize: 20, fontWeight: "bold", backgroundColor: "transparent"}}
+                              type={this.state.showPassword ? 'text' : 'password'}
+                              required
+                              id="password"
+                              label="Password"
+                              value={this.state.newPassword}
+                              onChange={(e) => this.handlePasswordChange(e.target.value)}
+                              endAdornment={
+                                <InputAdornment position="end">
+                                  <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={this.handleClickShowPassword}
+                                    onMouseDown={this.handleMouseDownPassword}
+                                    edge="end"
+                                  >
+                                  {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                                  </IconButton>
+                                </InputAdornment>
+                              }
+                      />
+                    </FormControl>
                     {/* update passcode */}
-                    <ColorButton
-                      variant="contained"
-                      onClick={this.updatePassword}
-                      style={{width: "auto", height: 50, paddingLeft: 20, paddingRight: 20, borderRadius: 10, background: "linear-gradient(145deg, #23a1ff, #1e87db)", 
-                              marginTop: 40}}
+                    <ColorButton variant="contained" onClick={this.updatePassword}
+                      style={{width: "auto", height: 50, paddingLeft: 20, paddingRight: 20, borderRadius: 10, background: "linear-gradient(145deg, #23a1ff, #1e87db)", marginTop: 20}}
                     >
                       <div style={{fontSize: 15, fontWeight: "bold", fontFamily: "Helvetica",}}>UPDATE PASSWORD</div>
                     </ColorButton>
                   </ThemeProvider>
-              </form>
-            </div>
+                </form>
+                {/* Go to Login Page */}
+                <Button style={{fontSize: 18, fontWeight: "bold", fontFamily: 'Helvetica', marginTop: 30}}>
+                  <Link to="/login" style={{color: '#757575', textDecoration: 'none'}}>
+                    GO TO LOGIN
+                  </Link>
+                </Button>
+              </div> 
+            }
+  
+            <Button style={{width: 80, height: 80, borderRadius: 20, marginLeft: 10}} onClick={this.handleClickChevronRight}>
+              <ChevronRightIcon style={{width: 42, height: 42}}></ChevronRightIcon>
+            </Button>
   
           </div>
         </div>

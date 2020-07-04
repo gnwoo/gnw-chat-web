@@ -126,9 +126,9 @@ export default class SignUp extends React.Component {
           <div>
             <img src={'./images/sign_up_illustration.png'} alt="Logo Illustration" className="logoIllustration" />
           </div>
-          
+
           <div className="signUpContainer" style={{width: 420, height: "auto", paddingTop: 40, paddingBottom: 40,
-                                                   marginBottom: 20, borderRadius: "40px",
+                                                   borderRadius: "40px",
                                                    background: "linear-gradient(145deg, #ffffff, #e6e6e6)",
                                                    boxShadow: "20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff"}}>
             {/* <div style={{fontSize: 38, fontWeight: "bold", fontFamily: "Helvetica", marginBottom: 50}}>SIGN UP</div> */}
@@ -202,18 +202,19 @@ export default class SignUp extends React.Component {
               variant="contained"
               onClick={this.submitSignUpForm}
               style={{width: 90, height: 90, borderRadius: 20, background: "linear-gradient(145deg, #23a1ff, #1e87db)", 
-                      boxShadow: "2px 2px 4px 2px #bbdefb", marginTop: 36}}
+                      boxShadow: "2px 2px 4px 2px #bbdefb", marginTop: 30}}
             >
               <DoneIcon style={{width: 36, height: 36}}></DoneIcon>
             </ColorButton>
   
             {/* Go to Login Page */}
-            <Link to="/login" 
-                  style={{fontSize: 18, fontWeight: "bold", fontFamily: 'Helvetica', color: '#757575',
-                          marginTop: 50, textDecoration: 'none'}}>
-              GO TO LOGIN
-            </Link>
+            <Button style={{fontSize: 18, fontWeight: "bold", fontFamily: 'Helvetica', marginTop: 30}}>
+              <Link to="/login" style={{color: '#757575', textDecoration: 'none'}}>
+                    GO TO LOGIN
+              </Link>
+            </Button>
           </div>
+          
         </div>
         
         <div className="footer" style={{position: "absolute", bottom: 10}}>

@@ -164,7 +164,8 @@ export default class Login extends React.Component {
             <img src={'./images/login_illustration.png'} alt="Logo Illustration" className="logoIllustration" />
           </div>
           
-          <div className="signUpContainer" style={{width: 420, height: 660, borderRadius: "40px", marginBottom: 20,
+          <div className="signUpContainer" style={{width: 420, height: "auto", paddingTop: 84, paddingBottom: 60,
+                                                   borderRadius: "40px", marginBottom: 20,
                                                    background: "linear-gradient(145deg, #ffffff, #e6e6e6)",
                                                    boxShadow: "20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff"}}>
             <div style={{fontSize: 38, fontWeight: "bold", fontFamily: "Helvetica", marginBottom: 50}}>LOGIN</div>
@@ -213,23 +214,23 @@ export default class Login extends React.Component {
               variant="contained"
               onClick={this.submitloginForm}
               style={{width: 90, height: 90, borderRadius: 20, background: "linear-gradient(145deg, #23a1ff, #1e87db)", 
-                      boxShadow: "2px 2px 4px 2px #bbdefb", marginTop: 40}}
+                      boxShadow: "2px 2px 4px 2px #bbdefb", marginTop: 50}}
             >
               <ArrowForwardIcon style={{width: 36, height: 36}}></ArrowForwardIcon>
             </ColorButton>
   
             {/* Go to Sign Up Page */}
-            <Link to="/sign-up" 
-                  style={{fontSize: 18, fontWeight: "bold", fontFamily: 'Helvetica', color: '#757575',
-                          marginTop: 50, textDecoration: 'none'}}>
-              CREATE AN ACCOUNT
-            </Link>
+            <Button style={{fontSize: 18, fontWeight: "bold", fontFamily: 'Helvetica', marginTop: 50}}>
+              <Link to="/sign-up"  style={{color: '#757575', textDecoration: 'none'}}>
+                CREATE AN ACCOUNT
+              </Link>
+            </Button>
             {/* Go to Change Password Page */}
-            <Link to="/change-password" 
-                  style={{fontSize: 18, fontWeight: "bold", fontFamily: 'Helvetica', color: '#757575',
-                          marginTop: 10, textDecoration: 'none'}}>
-              CANT'T LOGIN?
-            </Link>
+            <Button style={{fontSize: 18, fontWeight: "bold", fontFamily: 'Helvetica'}}>
+              <Link to="/change-password" style={{color: '#757575', textDecoration: 'none'}}>
+                CANT'T LOGIN?
+              </Link>
+            </Button>
   
             {/* redirect after login */}
             { this.state.isLogin && <Redirect to="/chat" /> }
