@@ -8,7 +8,6 @@ import UserAlert from '../components/UserAlert'
 import EditIcon from '@material-ui/icons/Edit';
 import ImageIcon from '@material-ui/icons/Image';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
-import UserAlertDialog from '../components/UserAlertDialog'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import NoEncryptionIcon from '@material-ui/icons/NoEncryption';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
