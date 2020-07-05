@@ -10,8 +10,8 @@ import FilledInput from '@material-ui/core/FilledInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import UserAlert from './components/UserAlert'
 import './App.css';
 
@@ -145,22 +145,17 @@ export default class ChangePassword extends React.Component {
         <div className="mainWrapper"> 
           <div className="ChangePasswordContainer">
 
-            <Button style={{width: 80, height: 80, borderRadius: 20,  marginRight: 10}} onClick={this.handleClickChevronLeft}>
-              <ChevronLeftIcon style={{width: 42, height: 42}}></ChevronLeftIcon>
-            </Button>
-
             {this.state.currentStep === 0 ?  
-              <div style={{width: 400, height: "auto", paddingTop: 70, paddingBottom: 70,
-                           display: "flex", flexDirection: "column", justifyContent: "center",
-                           alignItems: "center", borderRadius: "40px", marginBottom: 20, background: "linear-gradient(145deg, #ffffff, #e6e6e6)",
+              <div style={{width: 400, height: 600, display: "flex", flexDirection: "column", justifyContent: "center",
+                           alignItems: "center", borderRadius: "40px", marginLeft: 90, marginBottom: 20, background: "linear-gradient(145deg, #ffffff, #e6e6e6)",
                            boxShadow: "20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff"}}>
                 <form noValidate autoComplete="off">
-                  <p style={{fontSize: 22, fontWeight: "bold", fontFamily: "Helvetica", paddingLeft: 30, paddingRight: 30, marginBottom: 40}}>
+                  <p style={{fontSize: 22, fontWeight: "bold", fontFamily: "Helvetica", paddingLeft: 30, paddingRight: 30, marginBottom: 50}}>
                     Enter your username. We will send a passcode to your verified Email.
                   </p>
                   <ThemeProvider theme={theme}>
                       {/* enter username */}
-                      <FormControl style={{marginBottom: 50}} variant="filled">
+                      <FormControl style={{marginBottom: 70}} variant="filled">
                         <InputLabel style={{fontSize: 16, fontWeight: "bold"}}>USERNAME</InputLabel>
                         <FilledInput style={{width: 280, height: 80, fontSize: 20, fontWeight: "bold", backgroundColor: "transparent"}}
                           required
@@ -188,9 +183,8 @@ export default class ChangePassword extends React.Component {
                   </Link>
                 </Button>
               </div> : 
-              <div style={{width: 400, height: "auto", paddingTop: 70, paddingBottom: 70,
-                           display: "flex", flexDirection: "column", justifyContent: "center",
-                           alignItems: "center", borderRadius: "40px", marginBottom: 20, background: "linear-gradient(145deg, #ffffff, #e6e6e6)",
+              <div style={{width: 400, height: 600, display: "flex", flexDirection: "column", justifyContent: "center",
+                           alignItems: "center", borderRadius: "40px", marginLeft: 90, marginBottom: 20, background: "linear-gradient(145deg, #ffffff, #e6e6e6)",
                            boxShadow: "20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff"}}>
                 <form noValidate autoComplete="off">
                   <p style={{fontSize: 22, fontWeight: "bold", fontFamily: "Helvetica", paddingLeft: 30, paddingRight: 30, marginBottom: 40}}>
@@ -261,10 +255,18 @@ export default class ChangePassword extends React.Component {
                 </Button>
               </div> 
             }
-  
-            <Button style={{width: 80, height: 80, borderRadius: 20, marginLeft: 10}} onClick={this.handleClickChevronRight}>
-              <ChevronRightIcon style={{width: 42, height: 42}}></ChevronRightIcon>
-            </Button>
+            
+            <div style={{width: 80, height: 600, display: "flex", flexDirection: "column", marginLeft: 10, marginTop: 50}}>
+              <div style={{width: 80, height: 80, borderRadius: 20, display: "flex", justifyContent: "center", alignItems: "center", background: "#eeeeee", marginBottom: 4}}>
+                <span style={{fontSize: 26, fontWeight: 'bold', fontFamily: "Helvetica"}}>{this.state.currentStep + 1}</span>
+              </div>
+              <Button style={{width: 80, height: 80, borderRadius: 20}} onClick={this.handleClickChevronLeft}>
+                <KeyboardArrowUpIcon style={{width: 42, height: 42}}></KeyboardArrowUpIcon>
+              </Button>
+              <Button style={{width: 80, height: 80, borderRadius: 20}} onClick={this.handleClickChevronRight}>
+                <KeyboardArrowDownIcon style={{width: 42, height: 42}}></KeyboardArrowDownIcon>
+              </Button>
+            </div>
   
           </div>
         </div>
