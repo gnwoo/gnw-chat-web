@@ -50,15 +50,14 @@ export default function UserInputDialog(props) {
           </ThemeProvider>
         </DialogContent>
         <DialogActions>
-          <Button variant="contained"
-                       style={{marginBottom: 10, marginRight: 4, minWidth: 0, width: 50, height: 50, borderRadius: 14, background: "linear-gradient(145deg, #f5f5f5, #eeeeee)"}}
-                       onClick={props.onClickCancelButton}>
+          <Button style={{marginBottom: 10, minWidth: 0, width: 50, height: 50, borderRadius: 14}}
+                  onClick={props.onClickCancelButton}>
             <CloseIcon style={{width: 30, height: 30}}></CloseIcon>
           </Button>
           <ColorButton variant="contained"
-                       style={{marginBottom: 10, marginRight: 10, minWidth: 0, width: 60, height: 60, borderRadius: 14, background: "linear-gradient(145deg, #23a1ff, #1e87db)"}}
+                       style={{marginBottom: 10, marginRight: 10, minWidth: 0, width: 50, height: 50, borderRadius: 14, background: "linear-gradient(145deg, #23a1ff, #1e87db)"}}
                        onClick={props.onClickOKButton}>
-            <DoneIcon style={{width: 36, height: 36}}></DoneIcon>
+            <DoneIcon style={{width: 30, height: 30}}></DoneIcon>
           </ColorButton>
         </DialogActions>
       </Dialog>

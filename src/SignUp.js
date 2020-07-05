@@ -13,6 +13,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import DoneIcon from '@material-ui/icons/Done';
 import UserAlert from './components/UserAlert';
 import BlueCheckBox from './components/BlueCheckBox'
+import UserInputDialog from './components/UserInputDialog'
 
 const theme = createMuiTheme({
   palette: {
@@ -39,16 +40,20 @@ export default class SignUp extends React.Component {
       displayName: "",
       email: "",
       is2FA: false,
+      passcode: "",
       showPassword: false,
       userAlertOpen: false,
       userAlertSeverity: "info",
       userAlertMessage: "nothing",
+      userInputDialogOpen: false,
     };
   }
 
   handleUsernameChange = (usernameParam) => { this.setState({username: usernameParam})}
 
   handlePasswordChange = (passwordParam) => { this.setState({password: passwordParam}) }
+
+  handlePasscodeChange = (passcodeParam) => { this.setState({passcode: passcodeParam}) }
 
   handleDisplayNameChange = (displayNameParam) => { this.setState({displayName: displayNameParam})}
 
@@ -86,7 +91,9 @@ export default class SignUp extends React.Component {
     })
     .then(res =>  {
       if (res.ok) {
-        return res.json();
+        this.handleUserAlertChange("success", "An email verfication passcode has been sent to " + this.state.email)
+        this.handleUserAlertClose()
+        this.handleUserInputDialogClose()
       } else if (res.status === 409) {
         this.handleUserAlertChange("error", "Username has already been registered")
         this.handleUserAlertClose()
@@ -98,19 +105,47 @@ export default class SignUp extends React.Component {
         throw new Error()
       }
     })
-    .then(data => {
-      console.log(data)
-      if(data.secretKey2FA) {
-        this.handleUserAlertChange("success", "Sign Up Success. Your 2FA key: " + data.secretKey2FA)
+    .catch(error => console.log(error));
+  };
+
+  handleUserInputDialogClose = () => {this.setState({userInputDialogOpen: !this.state.userInputDialogOpen})}
+  handleUserInputDialogOK = () => {
+    fetch("http://localhost:8080/user/sign-up-email-verification", {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: this.state.email,
+        passcode: this.state.passcode
+      }),
+    })
+    .then(res =>  {
+      if (res.ok) {
+        this.handleUserInputDialogClose()
+        return res.json()
+      } else if (res.status === 401) {
+        this.handleUserAlertChange("error", "Invalid passcode")
         this.handleUserAlertClose()
+        throw new Error()
       }
       else {
-        this.handleUserAlertChange("success", "Sign Up Success")
+        this.handleUserAlertChange("error", "Server Error")
+        this.handleUserAlertClose()
+        throw new Error()
+      }
+    })
+    .then(data => {
+      if(data.secretKey2FA) {
+        this.handleUserAlertChange("success", "Sign up success. Your 2FA Key: " + data.secretKey2FA)
+        this.handleUserAlertClose()
+      } else {
+        this.handleUserAlertChange("success", "Sign up success")
         this.handleUserAlertClose()
       }
     })
     .catch(error => console.log(error));
-  };
+  }
 
   render(){
     return (
@@ -118,6 +153,12 @@ export default class SignUp extends React.Component {
         <UserAlert severity={this.state.userAlertSeverity} message={this.state.userAlertMessage} 
                    open={this.state.userAlertOpen} handleClose={this.handleUserAlertClose}>
         </UserAlert>
+        <UserInputDialog open={this.state.userInputDialogOpen} onClose={this.handleUserInputDialogOpen}
+                         dialogTitleText="Email Verification"
+                         dialogContentText="Enter the passcode we sent to your email."
+                         passcode2FA={this.state.passcode} handlePasscode2FAChange={this.handlePasscodeChange}
+                         onClickCancelButton={this.handleUserInputDialogClose} onClickOKButton={this.handleUserInputDialogOK}>
+        </UserInputDialog>
         <div className="header">
           <img src={'./images/logo.png'} alt="Logo" className="logoImg"/>
           <h1 className="headerText">sign up</h1>
