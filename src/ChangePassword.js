@@ -120,6 +120,10 @@ export default class ChangePassword extends React.Component {
         this.handleUserAlertChange("success", "Your password has been changed")
         this.handleUserAlertClose()
         return;
+      } else if (res.status === 400) {
+        this.handleUserAlertChange("error", "Invalid data format")
+        this.handleUserAlertClose()
+        throw new Error()
       } else if(res.status === 401) {
         this.handleUserAlertChange("error", "Username or passcode is incorrect")
         this.handleUserAlertClose()

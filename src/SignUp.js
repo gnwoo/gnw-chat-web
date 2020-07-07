@@ -94,6 +94,10 @@ export default class SignUp extends React.Component {
         this.handleUserAlertChange("success", "An email verfication passcode has been sent to " + this.state.email)
         this.handleUserAlertClose()
         this.handleUserInputDialogClose()
+      } else if (res.status === 400) {
+        this.handleUserAlertChange("error", "Invalid data format")
+        this.handleUserAlertClose()
+        throw new Error()
       } else if (res.status === 409) {
         this.handleUserAlertChange("error", "Username has already been registered")
         this.handleUserAlertClose()
@@ -124,6 +128,10 @@ export default class SignUp extends React.Component {
       if (res.ok) {
         this.handleUserInputDialogClose()
         return res.json()
+      } else if (res.status === 400) {
+        this.handleUserAlertChange("error", "Invalid data format")
+        this.handleUserAlertClose()
+        throw new Error()
       } else if (res.status === 401) {
         this.handleUserAlertChange("error", "Invalid passcode")
         this.handleUserAlertClose()
